@@ -4,9 +4,12 @@
 FROM debian:buster
 
 # initially update and upgrade the system \ install ngix \ install openssl ('-y' answers yes to all prompts)
-RUN apt-get -y update & apt-get -y upgrade \
-    apt-get install -y nginx \
+RUN apt-get -y update && apt-get -y upgrade && \
+    apt-get install -y nginx && \
     apt-get install -y openssl
+#RUN apt-get update && apt-get install -y \
+#	nginx \
+#	openssl
 
 # copy custom nginx config file from the host VM into the container 
 COPY ./conf/inception_nginx.conf /etc/nginx/sites-available/inception_nginx.conf
@@ -29,7 +32,7 @@ RUN openssl req -newkey rsa:4096 \
     -subj "/CN=alanghan.42.fr"
 
 # expose port 443, as the only bridge between the www and the webserver
-# EXPOSE 443
+EXPOSE 443
 # not needed! We set port 443 in the config file
 
 # runs nginx with debug symbols in the foreground
@@ -38,4 +41,4 @@ RUN openssl req -newkey rsa:4096 \
 # Otherwise docker can't track the nginx process and stops the container. 
 # (https://itecnote.com/tecnote/docker-the-difference-between-nginx-daemon-on-off-option/) 
 # (https://hub.docker.com/_/nginx/)
-CMD ["nginx", "-g", "daemon-off;"]
+CMD ["nginx", "-g", "daemon off;"]
