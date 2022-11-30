@@ -24,8 +24,8 @@ COPY ./conf/inception_nginx.conf /etc/nginx/sites-available/inception_nginx.conf
 RUN openssl req -newkey rsa:4096 \
     -x509 -days 365 \
     -sha256 -nodes \
-    -out MyCertificate.crt \
-    -keyout MyKey.key \
+    -out /etc/ssl/certs/nginx.crt \
+    -keyout /etc/ssl/private/nginx.key \
     -subj "/CN=alanghan.42.fr"
 
 # expose port 443, as the only bridge between the www and the webserver
