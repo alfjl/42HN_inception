@@ -12,7 +12,7 @@ RUN apt-get update && \
     apt-get install -y openssl
 
 # copy custom nginx config file from the host VM into the container 
-COPY conf/nginx.conf /etc/nginx/sites-available
+COPY conf/nginx.conf /etc/nginx/sites-available/default
 
 # (https://www.linode.com/docs/guides/create-a-self-signed-tls-certificate/)
 # (https://www.openssl.org/docs/man1.0.2/man1/openssl-req.html)
@@ -32,7 +32,7 @@ RUN openssl req -newkey rsa:4096 \
     -subj "/CN=alanghan.42.fr"
 
 # expose port 443, as the only bridge between the www and the webserver
-EXPOSE 443
+# EXPOSE 443
 # needed? We set port 443 in the config file
 
 # runs nginx with debug symbols in the foreground
