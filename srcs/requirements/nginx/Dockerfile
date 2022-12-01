@@ -4,15 +4,15 @@
 FROM debian:buster
 
 # initially update and upgrade the system \ install ngix \ install openssl ('-y' answers yes to all prompts)
-RUN apt-get -y update && apt-get -y upgrade && \
+# RUN apt-get update && apt-get upgrade -y && \
+#     apt-get install -y nginx && \
+#     apt-get install -y openssl
+RUN apt-get update && \
     apt-get install -y nginx && \
     apt-get install -y openssl
-#RUN apt-get update && apt-get install -y \
-#	nginx \
-#	openssl
 
 # copy custom nginx config file from the host VM into the container 
-COPY ./conf/inception_nginx.conf /etc/nginx/sites-available/inception_nginx.conf
+COPY conf/nginx.conf /etc/nginx/sites-available
 
 # (https://www.linode.com/docs/guides/create-a-self-signed-tls-certificate/)
 # (https://www.openssl.org/docs/man1.0.2/man1/openssl-req.html)
@@ -33,7 +33,7 @@ RUN openssl req -newkey rsa:4096 \
 
 # expose port 443, as the only bridge between the www and the webserver
 EXPOSE 443
-# not needed! We set port 443 in the config file
+# needed? We set port 443 in the config file
 
 # runs nginx with debug symbols in the foreground
 # -g: nginx is compiled with -g by default. Good practice?
