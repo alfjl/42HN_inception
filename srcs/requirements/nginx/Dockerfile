@@ -4,8 +4,12 @@
 # get penultimate stable version of Debian
 FROM debian:buster
 
-# initially update the system \ install ngix \ install openssl ('-y' answers yes to all prompts) \
-# [cache busting](https://websetnet.net/fixing-unable-to-parse-package-file-var-lib-apt-lists-error-in-ubuntu-and-other-linux-distributions/)
+# initially update the system
+# install ngix
+# install openssl
+# ('-y' answers yes to all prompts)
+# cache bust the apt cache, to prevent potential parsing errors, or old dependencies
+# (https://websetnet.net/fixing-unable-to-parse-package-file-var-lib-apt-lists-error-in-ubuntu-and-other-linux-distributions/)
 RUN apt-get update && \
     apt-get install -y nginx && \
     apt-get install -y openssl && \
@@ -36,7 +40,7 @@ RUN openssl req -newkey rsa:4096 \
 # needed? We set port 443 in the config file
 
 # runs nginx with debug symbols in the foreground
-# -g: nginx is compiled with -g by default. Good practice?
+# -g: nginx is compiled with -g by default. Still good practice to use here?
 # daemon-off: runs nginx in the foreground as the one process running on the OS
 # Otherwise docker can't track the nginx process and stops the container. 
 # (https://itecnote.com/tecnote/docker-the-difference-between-nginx-daemon-on-off-option/) 
