@@ -1,15 +1,15 @@
 # Dockerfile
+# (https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#run)
 
 # get penultimate stable version of Debian
 FROM debian:buster
 
-# initially update and upgrade the system \ install ngix \ install openssl ('-y' answers yes to all prompts)
-# RUN apt-get update && apt-get upgrade -y && \
-#     apt-get install -y nginx && \
-#     apt-get install -y openssl
+# initially update the system \ install ngix \ install openssl ('-y' answers yes to all prompts) \
+# [cache busting](https://websetnet.net/fixing-unable-to-parse-package-file-var-lib-apt-lists-error-in-ubuntu-and-other-linux-distributions/)
 RUN apt-get update && \
     apt-get install -y nginx && \
-    apt-get install -y openssl
+    apt-get install -y openssl && \
+    rm -r /var/lib/apt/lists/*
 
 # copy custom nginx config file from the host VM into the container 
 COPY conf/nginx.conf /etc/nginx/sites-available/default
