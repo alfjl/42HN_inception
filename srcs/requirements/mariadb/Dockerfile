@@ -5,9 +5,9 @@
 # get penultimate stable version of Debian
 FROM debian:buster
 
-# initially update the system
+# initially update the system to prevent old dependencies (cache bust)
 # install MariaDB Server
-# cache bust the apt cache, to prevent potential parsing errors, or old dependencies
+# remove the apt cache, to prevent potential parsing errors
 # (https://websetnet.net/fixing-unable-to-parse-package-file-var-lib-apt-lists-error-in-ubuntu-and-other-linux-distributions/)
 RUN apt-get update && \
     apt-get install -y mariadb-server && \

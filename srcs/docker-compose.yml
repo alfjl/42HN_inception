@@ -1,0 +1,39 @@
+# (https://docs.docker.com/compose/compose-file/)
+# (https://docs.docker.com/compose/compose-file/compose-file-v3/)
+
+version: '3'
+
+# (https://blog.code4hire.com/2018/06/define-named-volume-with-host-mount-in-the-docker-compose-file/)
+volumes:
+  wordpress_database:
+    name: wordpress_database
+    driver: local
+    driver_opts:
+      device: /home/alf/data/wordpress_database
+      o: bind
+      type: none
+  wordpress_files:
+    name: wordpress_files
+    driver: local
+    driver_opts:
+      device: /home/alf/data/wordpress_files
+      o: bind
+      type: none
+
+networks:
+  inception:
+    name: inception
+
+services:
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    build: ./requirements/mariadb
+    ports:
+      - 3306:3306
+    volumes:
+      - wordpress_database:/var/lib/mysql
+    network: 
+      - inception
+    restart: unless-stopped
+    
