@@ -5,6 +5,7 @@ version: '3'
 
 # (https://blog.code4hire.com/2018/06/define-named-volume-with-host-mount-in-the-docker-compose-file/)
 volumes:
+
   wordpress_database:
     name: wordpress_database
     driver: local
@@ -12,6 +13,7 @@ volumes:
       device: /home/alf/data/wordpress_database
       o: bind
       type: none
+
   wordpress_files:
     name: wordpress_files
     driver: local
@@ -20,11 +22,15 @@ volumes:
       o: bind
       type: none
 
+
 networks:
+
   inception:
     name: inception
 
+
 services:
+
   mariadb:
     container_name: mariadb
     image: mariadb
@@ -43,3 +49,37 @@ services:
     network: 
       - inception
     restart: unless-stopped # https://stackoverflow.com/questions/61725195/difference-in-docker-restart-policy-between-on-failure-and-unless-stopped
+
+  wordpress:
+    container_name: wordpress
+    image: wordpress
+    build:
+      context: ./requirements/wordpress
+      #: or environment: ? or env_file: ?
+      #   - necessary?
+    ports:
+      - 9000:9000
+    volumes:
+      - wordpress_files:/var/www/wordpress
+    network:
+      - inception
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    build:
+      context: ./requirements/nginx
+      # args: or environment: ? or env_file: ?
+      #   - necessary?
+    ports:
+      - 443:443
+    volumes:
+      - wordpress_files:/var/www/wordpress
+    network:
+      - inception
+    depends_on:
+      - wordpress
+    restart: unless-stopped
