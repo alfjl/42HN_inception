@@ -34,6 +34,7 @@ services:
   mariadb:
     container_name: mariadb
     image: mariadb
+    env_file: .env
     build:
       context: ./requirements/mariadb
       args:
@@ -53,6 +54,7 @@ services:
   wordpress:
     container_name: wordpress
     image: wordpress
+    env_file: .env
     build:
       context: ./requirements/wordpress
       #: or environment: ? or env_file: ?
@@ -70,6 +72,7 @@ services:
   nginx:
     container_name: nginx
     image: nginx
+    env_file: .env
     build:
       context: ./requirements/nginx
       # args: or environment: ? or env_file: ?
