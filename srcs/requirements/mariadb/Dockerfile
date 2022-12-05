@@ -37,6 +37,9 @@ RUN service mysql start && \
     mysql -u root -e "FLUSH PRIVILEGES;" \
     mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MDB_PASS_ROOT';"
 
+# stop MariaDB in order to run it with 'mysqld_safe' later on
+RUN service mysql stop
+
 # expose port 3306 to other docker containers on the same system
 # EXPOSE 3306
 # needed? We set port 3306 in the config file
