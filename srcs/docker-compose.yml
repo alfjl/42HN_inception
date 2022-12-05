@@ -34,6 +34,7 @@ services:
         - MDB_HOST=${MDB_HOST}
         - MDB_NAME=${MDB_NAME}
         - MDB_PASS=${MDB_PASS}
+        - MDB_PASS_ROOT=${MDB_PASS_ROOT}
         - MDB_USER=${MDB_USER}
     ports:
       - 3306:3306

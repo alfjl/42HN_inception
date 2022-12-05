@@ -41,8 +41,8 @@ RUN openssl req -newkey rsa:4096 \
 
 # runs nginx with debug symbols in the foreground
 # -g: nginx is compiled with -g by default. Still good practice to use here?
-# daemon-off: runs nginx in the foreground as the one process running on the OS
-# Otherwise docker can't track the nginx process and stops the container. 
+# daemon-off: runs nginx in the foreground as the one process running on the OS,
+# otherwise docker can't track the nginx process and stops the container. 
 # (https://itecnote.com/tecnote/docker-the-difference-between-nginx-daemon-on-off-option/) 
 # (https://hub.docker.com/_/nginx/)
 CMD ["nginx", "-g", "daemon off;"]

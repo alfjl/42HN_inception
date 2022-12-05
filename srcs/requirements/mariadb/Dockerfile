@@ -16,13 +16,27 @@ RUN apt-get update -y && \
 # copy customized mariadb config file from host VM into the container
 COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
-# Expose args from .env via .yml file for setting up our MariaDB user
+# expose args from .env via .yml file for setting up our MariaDB user
 ARG MDB_HOST
 ARG MDB_NAME
 ARG MDB_PASS
+ARG MDB_PASS_ROOT
 ARG MDB_USER
 
-# 
+# start MariaDB && \
+# create new database
+# create new user
+# give user permissions to work on new databases
+# load/reload user table
+# change root (= Admin user) passwort (https://www.digitalocean.com/community/tutorials/how-to-reset-your-mysql-or-mariadb-root-password)
+# (https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lemp-nginx-mariadb-and-php-on-debian-10)
+RUN service mysql start && \
+    mysql -u root -e "CREATE DATABASE $MDB_NAME;" && \
+    mysql -u root -e "CREATE USER '$MDB_USER'@'$MDB_HOST' IDENTIFIED BY '$MDB_PASS';" && \
+    mysql -u root -e "GRANT ALL PRIVILEGES ON $MDB_NAME.* TO '$MDB_USER'@'$MDB_HOST';" && \
+    mysql -u root -e "FLUSH PRIVILEGES;" \
+    mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MDB_PASS_ROOT';"
+
 # expose port 3306 to other docker containers on the same system
 # EXPOSE 3306
 # needed? We set port 3306 in the config file
