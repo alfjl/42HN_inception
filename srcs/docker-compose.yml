@@ -28,12 +28,17 @@ services:
   mariadb:
     container_name: mariadb
     image: mariadb
-    build: ./requirements/mariadb
+    build:
+      context: ./requirements/mariadb
+      args:
+        - MDB_HOST=${MDB_HOST}
+        - MDB_NAME=${MDB_NAME}
+        - MDB_PASS=${MDB_PASS}
+        - MDB_USER=${MDB_USER}
     ports:
       - 3306:3306
     volumes:
       - wordpress_database:/var/lib/mysql
     network: 
       - inception
-    restart: unless-stopped
-    
+    restart: unless-stopped # https://stackoverflow.com/questions/61725195/difference-in-docker-restart-policy-between-on-failure-and-unless-stopped

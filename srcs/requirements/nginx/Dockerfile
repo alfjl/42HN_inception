@@ -10,7 +10,7 @@ FROM debian:buster
 # ('-y' answers yes to all prompts)
 # delete the apt cache, to prevent potential parsing errors
 # (https://websetnet.net/fixing-unable-to-parse-package-file-var-lib-apt-lists-error-in-ubuntu-and-other-linux-distributions/)
-RUN apt-get update && \
+RUN apt-get update -y && \
     apt-get install -y nginx && \
     apt-get install -y openssl && \
     rm -r /var/lib/apt/lists/*

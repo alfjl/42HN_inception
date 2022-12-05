@@ -9,15 +9,23 @@ FROM debian:buster
 # install MariaDB Server
 # remove the apt cache, to prevent potential parsing errors
 # (https://websetnet.net/fixing-unable-to-parse-package-file-var-lib-apt-lists-error-in-ubuntu-and-other-linux-distributions/)
-RUN apt-get update && \
+RUN apt-get update -y && \
     apt-get install -y mariadb-server && \
     rm -rf /var/lib/apt/lists/*
 
 # copy customized mariadb config file from host VM into the container
 COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
+# Expose args from .env via .yml file for setting up our MariaDB user
+ARG MDB_HOST
+ARG MDB_NAME
+ARG MDB_PASS
+ARG MDB_USER
+
+# 
 # expose port 3306 to other docker containers on the same system
-EXPOSE 3306
+# EXPOSE 3306
+# needed? We set port 3306 in the config file
 
 # ("man mysqld_safe" on MAC)
 # mysqld_safe is the recommended way to start a mysqld server on Unix.
