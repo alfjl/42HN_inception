@@ -30,15 +30,14 @@ ARG MDB_USER
 # load/reload user table
 # change root (= Admin user) passwort (https://www.digitalocean.com/community/tutorials/how-to-reset-your-mysql-or-mariadb-root-password)
 # (https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lemp-nginx-mariadb-and-php-on-debian-10)
+# stop MariaDB in order to run it with 'mysqld_safe' later on
 RUN service mysql start && \
     mysql -u root -e "CREATE DATABASE $MDB_NAME;" && \
     mysql -u root -e "CREATE USER '$MDB_USER'@'$MDB_HOST' IDENTIFIED BY '$MDB_PASS';" && \
     mysql -u root -e "GRANT ALL PRIVILEGES ON $MDB_NAME.* TO '$MDB_USER'@'$MDB_HOST';" && \
-    mysql -u root -e "FLUSH PRIVILEGES;" \
-    mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MDB_PASS_ROOT';"
-
-# stop MariaDB in order to run it with 'mysqld_safe' later on
-RUN service mysql stop
+    mysql -u root -e "FLUSH PRIVILEGES;" && \
+    mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MDB_PASS_ROOT';" && \
+    service mysql stop
 
 # expose port 3306 to other docker containers on the same system
 # EXPOSE 3306

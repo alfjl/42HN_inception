@@ -12,7 +12,8 @@ FROM debian:buster
 # delete the apt cache, to prevent potential parsing errors
 # (https://websetnet.net/fixing-unable-to-parse-package-file-var-lib-apt-lists-error-in-ubuntu-and-other-linux-distributions/)
 RUN apt-get update -y && \
-    apt-get install -y [...] && \
+    apt-get install -y curl && \
+    apt-get install -y 
 
 # copy custom wordpress config file from the host VM into the container 
 COPY src dockerfile_best
