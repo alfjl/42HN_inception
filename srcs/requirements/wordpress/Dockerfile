@@ -72,5 +72,5 @@ RUN cd /var/www/wordpress && \
 # EXPOSE 9000
 # needed? We set port 9000 in the config file
 
-# Start php-fpm and force to stay in the foreground
+# Start php-fpm to rspond to Fast and CGI requests and force it to stay in the foreground
 CMD ["php-fpm7.3", "-F"]
