@@ -29,6 +29,7 @@ ARG MDB_USER
 # give user permissions to work on new databases
 # load/reload user table
 # change root (= Admin user) passwort (https://www.digitalocean.com/community/tutorials/how-to-reset-your-mysql-or-mariadb-root-password)
+# (https://pixelspress.com/how-to-install-wordpress-on-ubuntu-with-nginx-mariadb-and-php-fpm/)
 # (https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lemp-nginx-mariadb-and-php-on-debian-10)
 # stop MariaDB in order to run it with 'mysqld_safe' later on
 RUN service mysql start && \
