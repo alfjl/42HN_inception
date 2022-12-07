@@ -7,7 +7,7 @@ FROM debian:buster
 # initially update the system to prevent old dependencies (cache bust)
 # install curl
 # install mariadb-client
-# install php 7.3 incl. fpm & mysql
+# install php 7.3 incl. fpm & mysql (debian/buster package manager includes version 7.3)
 # ('-y' answers yes to all prompts)
 # delete the apt cache, to prevent potential parsing errors
 # (https://websetnet.net/fixing-unable-to-parse-package-file-var-lib-apt-lists-error-in-ubuntu-and-other-linux-distributions/)
@@ -18,8 +18,9 @@ RUN apt-get update -y && \
     apt-get install -y php7.3-mysql && \
     rm -rf /var/lib/apt/lists/*
 
-# copy custom wordpress config file from the host VM into the container 
-COPY conf/wp.conf /etc/php/7.3/fpm/pool.d
+# copy custom php config file from the host VM into the container
+# (https://myjeeva.com/php-fpm-configuration-101.html)
+COPY conf/www.conf /etc/php/7.3/fpm/pool.d
 
 # # move into /var/www/
 # # get wordpress tar
@@ -45,6 +46,7 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 # create the first non-admin user
 # cd back to where you were before
 # (https://www.youtube.com/watch?v=9E1lyVyh4xc)
+# (https://wordpress.org/support/article/creating-database-for-wordpress/#using-the-mysql-client)
 RUN cd /var/www/wordpress && \
     wp core download --allow-root && \
     wp core config \
