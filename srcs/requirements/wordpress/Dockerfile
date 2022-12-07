@@ -19,7 +19,7 @@ RUN apt-get update -y && \
     rm -rf /var/lib/apt/lists/*
 
 # copy custom wordpress config file from the host VM into the container 
-COPY conf/www.conf /etc/php/7.3/fpm/pool.d
+COPY conf/wp.conf /etc/php/7.3/fpm/pool.d
 
 # # move into /var/www/
 # # get wordpress tar
@@ -40,7 +40,7 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 
 # change directory to /var/www/wordpress
 # download fresh instance of wordpress
-# configure the wp instance to accept the MariaDB databank
+# create wp-config.php file and configure the wp instance to accept the MariaDB databank
 # install the wp instance and set the admin user and general infos like title and url
 # create the first non-admin user
 # cd back to where you were before
