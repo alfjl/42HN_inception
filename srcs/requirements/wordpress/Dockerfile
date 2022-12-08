@@ -36,7 +36,8 @@ COPY conf/www.conf /etc/php/7.3/fpm/pool.d
 # ...add execution rights, to use as command
 # (https://code.tutsplus.com/articles/download-and-install-wordpress-via-the-shell-over-ssh--wp-24403)
 # (https://www.dreamhost.com/blog/guide-to-wp-cli/#:~:text=The%20WP%2DCLI%20is%20a,faster%20using%20the%20WP%2DCLI)
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp-cli -s && \
+# (https://wordpress.stackexchange.com/questions/293124/shortest-way-to-install-wp-cli)
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -s > /usr/local/bin/wp && \
     chmod +x /usr/local/bin/wp
 
 # change directory to /var/www/wordpress
