@@ -5,7 +5,7 @@
 
 # Build and run all containers for LEMP stack via docker-compose.yml
 all:
-	docker-compose -f ./srcs/docker-compose.yml up
+	docker-compose -f ./srcs/docker-compose.yml --env-file ./srcs/.env up
 
 # Stop all containers for LEMP stack via docker-compose.yml
 clean:
