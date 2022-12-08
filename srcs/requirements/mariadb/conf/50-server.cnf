@@ -15,8 +15,8 @@
 #
 
 user                    = mysql
-pid-file                = /run/mysqld/mysqld.pid
-socket                  = /run/mysqld/mysqld.sock # add .sock file as fallback option
+pid-file                = /var/run/mysqld/mysqld.pid
+socket                  = /var/run/mysqld/mysqld.sock # add .sock file as fallback option
 port                    = 3306 # open port 3306 only
 basedir                 = /usr
 datadir                 = /var/lib/mysql

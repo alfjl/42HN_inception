@@ -48,8 +48,8 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 # cd back to where you were before
 # (https://www.youtube.com/watch?v=9E1lyVyh4xc)
 # (https://wordpress.org/support/article/creating-database-for-wordpress/#using-the-mysql-client)
-RUN cd /var/www/wordpress && \
-    wp core download --allow-root && \
+WORKDIR /var/www/wordpress
+RUN    wp core download --allow-root && \
     wp core config \
                     --dbname=$MDB_NAME \
                     --dbuser=$MDB_USER \

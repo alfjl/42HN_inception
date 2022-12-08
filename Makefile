@@ -5,6 +5,8 @@
 
 # Build and run all containers for LEMP stack via docker-compose.yml
 all:
+	mkdir -p ~/data/wordpress_database
+	mkdir -p ~/data/wordpress_files
 	docker-compose -f ./srcs/docker-compose.yml --env-file ./srcs/.env up
 
 # Stop all containers for LEMP stack via docker-compose.yml
@@ -18,8 +20,8 @@ clean:
 # Delete all files in the database and wordpress files volumes on the host VM
 fclean:
 	docker-compose -f ./srcs/docker-compose.yml --env-file ./srcs/.env down --volumes --rmi all
-	rm -rf /home/alf/data/wordpress_database/*
-	rm -rf /home/alf/data/wordpress_files/*
+	sudo rm -rf /home/alf/data/wordpress_database
+	sudo rm -rf /home/alf/data/wordpress_files
 
 # Clean up and rerun docker-compose
 re: fclean all
