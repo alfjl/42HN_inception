@@ -27,7 +27,7 @@ fclean:
 re: fclean all
 
 # ==========| BE AWARE: For debugging purposes only! |========== #
-# removes all unused containers, networks and images on the system (not just dangling ones)
-# Dosen't prompt for confirmation
+# Removes all unused containers, networks and images on the system (not just dangling ones)
+# Doesn't prompt for confirmation!
 prune:
 	docker system prune -a -f
