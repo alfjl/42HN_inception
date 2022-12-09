@@ -40,6 +40,9 @@ COPY conf/www.conf /etc/php/7.3/fpm/pool.d
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -s > /usr/local/bin/wp && \
     chmod +x /usr/local/bin/wp
 
+# needed? Doesn't help solve the error: (Unable to create the PID file (/run/php/php7.3-fpm.pid).: No such file or directory)
+RUN mkdir /run/php
+
 # change directory to /var/www/wordpress
 # download fresh instance of wordpress
 # create wp-config.php file and configure the wp instance to accept the MariaDB databank

@@ -1,7 +1,7 @@
 # 'Protect' the make rules in order to avoid a conflict with a file of the same name,
 # and to improve performance.
 .PHONY:
-	all clean fclean re
+	all clean fclean re prune
 
 # Build and run all containers for LEMP stack via docker-compose.yml
 all:
@@ -25,3 +25,9 @@ fclean:
 
 # Clean up and rerun docker-compose
 re: fclean all
+
+# ==========| BE AWARE: For debugging purposes only! |========== #
+# removes all unused containers, networks and images on the system (not just dangling ones)
+# Dosen't prompt for confirmation
+prune:
+	docker system prune -a -f
