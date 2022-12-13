@@ -11,72 +11,35 @@ FROM debian:buster
 # ('-y' answers yes to all prompts)
 # delete the apt cache, to prevent potential parsing errors
 # (https://websetnet.net/fixing-unable-to-parse-package-file-var-lib-apt-lists-error-in-ubuntu-and-other-linux-distributions/)
-RUN apt-get update -y && \
-    apt-get install -y curl && \
-    apt-get install -y mariadb-client && \
-    apt-get install -y php7.3-fpm && \
-    apt-get install -y php7.3-mysql && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update -y && apt-get install -y \
+    curl \
+    mariadb-client \
+    php7.3-fpm \
+    php7.3-mysql \
+&&  rm -rf /var/lib/apt/lists/*
 
 # copy custom php config file from the host VM into the container
 # (https://myjeeva.com/php-fpm-configuration-101.html)
+RUN mkdir -p /etc/php/7.3/fpm
 COPY conf/www.conf /etc/php/7.3/fpm/pool.d
 
-# # move into /var/www/
-# # get wordpress tar
-# # un-tar it
-# # clean up tar file to safe memory
-# # (https://pixelspress.com/how-to-install-wordpress-on-ubuntu-with-nginx-mariadb-and-php-fpm/)
-# RUN cd /var/www/ && \
-#     curl https://wordpress.org/latest.tar.gz -o latest.tar.gz && \
-#     tar -xvzf latest.tar.gz && \
-#     rm -rf latest.tar.gz
+# resolves the error: (Unable to create the PID file (/run/php/php7.3-fpm.pid).: No such file or directory)
+RUN mkdir /run/php
 
 # install WordPress Commandline tool in /usr/local/bin and rename to wp-cli...
 # ...add execution rights, to use as command
 # (https://code.tutsplus.com/articles/download-and-install-wordpress-via-the-shell-over-ssh--wp-24403)
 # (https://www.dreamhost.com/blog/guide-to-wp-cli/#:~:text=The%20WP%2DCLI%20is%20a,faster%20using%20the%20WP%2DCLI)
 # (https://wordpress.stackexchange.com/questions/293124/shortest-way-to-install-wp-cli)
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -s > /usr/local/bin/wp && \
-    chmod +x /usr/local/bin/wp
+RUN	curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar --output /usr/bin/wp --silent && \
+    chmod +x ./usr/bin/wp
 
-# needed? Doesn't help solve the error: (Unable to create the PID file (/run/php/php7.3-fpm.pid).: No such file or directory)
-RUN mkdir /run/php
+# defines 9000 as the port that this container will listen on at runtime.
+EXPOSE 9000
 
-# change directory to /var/www/wordpress
-# download fresh instance of wordpress
-# create wp-config.php file and configure the wp instance to accept the MariaDB databank
-# install the wp instance and set the admin user and general infos like title and url
-# create the first non-admin user
-# cd back to where you were before
-# (https://www.youtube.com/watch?v=9E1lyVyh4xc)
-# (https://wordpress.org/support/article/creating-database-for-wordpress/#using-the-mysql-client)
-WORKDIR /var/www/wordpress
-RUN    wp core download --allow-root && \
-    wp core config \
-                    --dbname=$MDB_NAME \
-                    --dbuser=$MDB_USER \
-                    --dbpass=$MDB_PASS \
-                    --dbhost=$MDB_HOST \
-                    --allow-root && \
-    wp core install \
-                    --url=$WP_URL \
-                    --title=$WP_TITLE \
-                    --admin_user=$WP_ADMIN_NAME \
-                    --admin_password=$WP_ADMIN_PASS \
-                    --admin_email=$WP_ADMIN_EMAIL \
-                    --allow-root && \
-    wp user create \
-                    $WP_USER \
-                    $WP_USER_EMAIL \
-                    --role=author \
-                    --user_pass=$WP_USER_PASS \
-                    --allow-root && \
-    cd -
-
-# expose port 9000 to other docker containers on the same system (in the case of our project: nginx)
-# EXPOSE 9000
-# needed? We set port 9000 in the config file
-
-# Start php-fpm to rspond to Fast and CGI requests and force it to stay in the foreground
-CMD ["php-fpm7.3", "-F"]
+# we copy the configuration script
+# give execution rights to launch it in local on our computer
+# use it as entrypoint for the container
+COPY ./conf/config.sh /var/www/wordpress/config.sh
+RUN chmod +x /var/www/wordpress/config.sh
+ENTRYPOINT ["/var/www/wordpress/config.sh"]

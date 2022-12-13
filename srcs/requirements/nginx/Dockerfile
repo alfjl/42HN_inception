@@ -10,10 +10,10 @@ FROM debian:buster
 # ('-y' answers yes to all prompts)
 # delete the apt cache, to prevent potential parsing errors
 # (https://websetnet.net/fixing-unable-to-parse-package-file-var-lib-apt-lists-error-in-ubuntu-and-other-linux-distributions/)
-RUN apt-get update -y && \
-    apt-get install -y nginx && \
-    apt-get install -y openssl && \
-    rm -r /var/lib/apt/lists/*
+RUN apt-get update -y && apt-get install -y \
+    nginx \
+    openssl \
+&&  rm -r /var/lib/apt/lists/*
 
 # copy custom nginx config file from the host VM into the container 
 COPY conf/nginx.conf /etc/nginx/sites-available/default
@@ -36,8 +36,7 @@ RUN openssl req -newkey rsa:4096 \
     -subj "/CN=alanghan.42.fr"
 
 # expose port 443, as the only bridge between the www and the webserver
-# EXPOSE 443
-# needed? We set port 443 in the config file
+EXPOSE 443
 
 # runs nginx with debug symbols in the foreground
 # -g: nginx is compiled with -g by default. Still good practice to use here?
