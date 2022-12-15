@@ -7,7 +7,7 @@ This project in general showcases the creation of a simple LEMP stack.
 
 ## Description
  * set up 3 docker containers:
-	* one container that contains NGINX with TLSv1.2 or TLSv1.3
+	* one container that contains NGINX with TLSv1.2 or TLSv1.3 protocol  
 	* one that contains WordPress + php-fpm
 	* one that contains MariaDB  
  * set up one volume, that contains the WordPress database and one volume that contains the WordPress website files  
@@ -23,7 +23,9 @@ In typical 42 manner, this project is not about pulling ready-made images from d
 
 ### Resources
 
-* [https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-ubuntu-18-04](LEMP stack explanation)
-* 
-
-
+* [LEMP stack explanation](https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-ubuntu-18-04)
+* [Dockerfile best practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#run)
+* [docker-compose file documentation](https://docs.docker.com/compose/compose-file/)
+* [MariaDB documentation](https://mariadb.com/kb/en/documentation/)
+* [WP-CLI commands](https://developer.wordpress.org/cli/commands/)
+* [nginx documentation](http://nginx.org/en/docs/)

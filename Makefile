@@ -7,7 +7,7 @@
 all:
 	mkdir -p /home/alf/data/wordpress_database
 	mkdir -p /home/alf/data/wordpress_files
-	docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up
+	docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d
 
 # Stop all containers for LEMP stack via docker-compose.yml
 clean:
