@@ -19,7 +19,8 @@ In typical 42 manner, this project is not about pulling ready-made images from d
 
 ## Learnings
 
- - FILL IN -
+A nice introduction into the idea of the LEMP stack. I wrote a nginx-like webserver in C++ from scratch before, but that was the first time I saw how to use a server like that apart from hosting my own static website.  
+Further, this project gave me a nice intro to the syntax and structure of Dockerfiles and docker-compose files, and a general idea on how to define and run my own multi-container Docker applications.  
 
 ### Resources
 
