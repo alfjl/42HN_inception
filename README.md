@@ -12,9 +12,9 @@ This project in general showcases the creation of a simple LEMP stack.
 	* one that contains MariaDB  
  * set up one volume, that contains the WordPress database and one volume that contains the WordPress website files  
  * use docker-compose and set all three containers up in the same docker-network      
- * contaners need to restart in case of a crash  
+ * containers need to restart in case of a crash  
 
-In typical 42 manner, this project is not about pulling ready-made images from dockerhub, but only using images for the underlying OS (Alpine or Debian), and configuring everything else via the containers Dockerfiles.  
+In a typical 42 manner, this project is not about pulling ready-made images from dockerhub, but only using images for the underlying OS (Alpine or Debian), and configuring everything else via the containers Dockerfiles.  
 
 
 ## Learnings
